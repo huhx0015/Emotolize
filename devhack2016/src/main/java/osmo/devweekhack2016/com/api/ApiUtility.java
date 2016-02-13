@@ -1,4 +1,4 @@
-package osmo.devweekhack2016.com;
+package osmo.devweekhack2016.com.api;
 
 import com.squareup.okhttp.OkHttpClient;
 

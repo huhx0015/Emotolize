@@ -130,7 +130,7 @@ public class RecognizeActivity extends ActionBarActivity {
             mEditText.append("Error encountered. Exception is: " + e.toString());
         }
 
-        String faceSubscriptionKey = getString(R.string.faceSubscription_key);
+        String faceSubscriptionKey = getString(R.string.face_api_key);
         if (faceSubscriptionKey.equalsIgnoreCase("Please_add_the_face_subscription_key_here")) {
             mEditText.append("\n\nThere is no face subscription key in res/values/strings.xml. Skip the sample for detecting emotions using face rectangles\n");
         } else {
@@ -226,7 +226,7 @@ public class RecognizeActivity extends ActionBarActivity {
         long timeMark = System.currentTimeMillis();
         Log.d("emotion", "Start face detection using Face API");
         FaceRectangle[] faceRectangles = null;
-        String faceSubscriptionKey = getString(R.string.faceSubscription_key);
+        String faceSubscriptionKey = getString(R.string.face_api_key);
         FaceServiceRestClient faceClient = new FaceServiceRestClient(faceSubscriptionKey);
         Face faces[] = faceClient.detect(inputStream, false, false, null);
         Log.d("emotion", String.format("Face detection is done. Elapsed time: %d ms", (System.currentTimeMillis() - timeMark)));

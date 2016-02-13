@@ -25,6 +25,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':DJI-SDK-LIB')
+    compile project(':emotion-lib')
 
     // ANDROID SUPPORT LIBRARIES
     compile 'com.android.support:appcompat-v7:23.+'

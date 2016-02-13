@@ -1,4 +1,4 @@
-package osmo.devweekhack2016.com;
+package osmo.devweekhack2016.com.api;
 
 /**
  * Created by Michael Yoon Huh on 2/13/2016.

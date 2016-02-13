@@ -1,2 +1,2 @@
-include ':app', ':devhack2016'
+include ':app', ':devhack2016', 'emotion-app', 'emotion-lib'
 include ':DJI-SDK-LIB'
