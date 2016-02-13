@@ -45,7 +45,7 @@
         -->
         <meta-data
             android:name="com.dji.sdk.API_KEY"
-            android:value="" />
+            android:value="@string/osmo_sample_api_key" />
 
         <activity
             android:name="dji.sdk.SDKManager.DJIAoaControllerActivity"

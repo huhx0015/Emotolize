@@ -39,3 +39,5 @@ proguard/
 
 # Import summary file
 import-summary.txt
+
+/src/main/res/values/secrets.xml
