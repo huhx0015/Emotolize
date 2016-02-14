@@ -153,7 +153,7 @@ public class ImageHelper {
     }
 
     // Rotate the original bitmap according to the given orientation angle
-    private static Bitmap rotateBitmap(Bitmap bitmap, int angle) {
+    public static Bitmap rotateBitmap(Bitmap bitmap, int angle) {
         // If the rotate angle is 0, then return the original image, else return the rotated image
         if (angle != 0) {
             Matrix matrix = new Matrix();

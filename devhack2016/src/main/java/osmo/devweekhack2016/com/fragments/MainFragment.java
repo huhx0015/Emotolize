@@ -1,6 +1,8 @@
 package osmo.devweekhack2016.com.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import osmo.devweekhack2016.com.R;
+import osmo.devweekhack2016.com.activities.MainActivity;
 import osmo.devweekhack2016.com.model.Face;
 
 
@@ -57,6 +60,7 @@ public class MainFragment extends Fragment {
     private static final String DATE_FORMAT = "EEEE MMMM d, yyyy 'at' h:mm aaa";
     private static final float DEFAULT_BAR_VALUE = 0.0f;
 
+    private Activity currentActivity;
 
     public MainFragment() {
         // Required empty public constructor
@@ -64,6 +68,13 @@ public class MainFragment extends Fragment {
 
     public static MainFragment newInstance(String param1, String param2) {
         return new MainFragment();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        this.currentActivity = activity;
     }
 
     @Override
@@ -79,6 +90,9 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
+        // Sets the current fragment.
+        ((MainActivity) currentActivity).setFragment(this);
 
         // create a new chart object
         barChart = (HorizontalBarChart) view.findViewById(R.id.chart);

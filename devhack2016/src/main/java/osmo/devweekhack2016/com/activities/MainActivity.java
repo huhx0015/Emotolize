@@ -11,17 +11,14 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.TextureView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import com.microsoft.projectoxford.emotion.EmotionServiceClient;
 import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dji.sdk.AirLink.DJILBAirLink;
@@ -32,6 +29,7 @@ import osmo.devweekhack2016.com.R;
 import osmo.devweekhack2016.com.api.ApiUtility;
 import osmo.devweekhack2016.com.application.EmotilizeApplication;
 import osmo.devweekhack2016.com.image.EmotionApiUtil;
+import osmo.devweekhack2016.com.image.ImageHelper;
 import osmo.devweekhack2016.com.image.OsmoUtil;
 import osmo.devweekhack2016.com.interfaces.OnDeviceConnected;
 import osmo.devweekhack2016.com.interfaces.OnEmotionResultsUpdated;
@@ -46,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     private static int INTERVAL_CHECK = 10000; // Sets interval to 30 seconds.
 
     private boolean useOsmoCamera = false; // TRUE: OSMO CAMERA | FALSE: ANDROID CAMERA
+    private MainFragment currentFragment;
 
     private Bitmap currentBitmapFrame = Bitmap.createBitmap(1280, 720, Bitmap.Config.ARGB_8888); // Stores the current Bitmap frame.
     private EmotionServiceClient client;
@@ -195,6 +194,12 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {}
 
+    /** FRAGMENT METHODS _______________________________________________________________________ **/
+
+    public void setFragment(MainFragment fragment) {
+        this.currentFragment = fragment;
+    }
+
     /** VIDEO METHODS __________________________________________________________________________ **/
 
     private void initVideoProcessing() {
@@ -256,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
             Log.d(LOG_TAG, "dataProcessThread(): Data process thread running...");
 
             currentBitmapFrame = videoTextureView.getBitmap(); // Gets the current bitmap from the TextureView.
+            currentBitmapFrame = ImageHelper.rotateBitmap(currentBitmapFrame, 90); // Rotates the bitmap by 90 degrees.
 
             //testImageView.setImageBitmap(currentBitmapFrame);
 
@@ -265,8 +271,9 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
                 EmotionApiUtil.processImageForEmotions(currentBitmapFrame, client, MainActivity.this);
 
                 // TODO: Sending fake Face data to server.
-                Face fakeFaceData = new Face(1, 0.10f, 0.20f, 0.30f, 0.10f, 0.10f, 0.10f, 0.10f, 0.10f);
-                ApiUtility.sendEmotionAnalytics(fakeFaceData);
+//                Random randomizer = new Random(999);
+//                Face fakeFaceData = new Face(randomizer.nextInt(1000), 0.10f / randomizer.nextFloat(), 0.20f / randomizer.nextFloat(), 0.30f / randomizer.nextFloat(), 0.10f / randomizer.nextFloat(), 0.10f / randomizer.nextFloat(), 0.10f / randomizer.nextFloat(), 0.10f / randomizer.nextFloat(), 0.10f / randomizer.nextFloat());
+//                ApiUtility.sendEmotionAnalytics(fakeFaceData);
             }
 
             dataImageHandler.postDelayed(this, INTERVAL_CHECK); // Thread is run again in 10000 ms.
@@ -321,16 +328,22 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
         Log.d(LOG_TAG, "emotionResults(): New Face Sadness Average: " + newFace.getSadness());
         Log.d(LOG_TAG, "emotionResults(): New Face Surprise Average: " + newFace.getSurprise());
 
-        ToastUtil.toastyPopUp("emotionResults(): New Face Anger Average: " + newFace.getAnger(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Contempt Average: " + newFace.getContempt(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Disgust Average: " + newFace.getDisgust(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Fear Average: " + newFace.getFear(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Happiness Average: " + newFace.getHappiness(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Neutral Average: " + newFace.getNeutral(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Sadness Average: " + newFace.getSadness(), this);
-        ToastUtil.toastyPopUp("emotionResults(): New Face Surprise Average: " + newFace.getSurprise(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Anger Average: " + newFace.getAnger(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Contempt Average: " + newFace.getContempt(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Disgust Average: " + newFace.getDisgust(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Fear Average: " + newFace.getFear(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Happiness Average: " + newFace.getHappiness(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Neutral Average: " + newFace.getNeutral(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Sadness Average: " + newFace.getSadness(), this);
+//        ToastUtil.toastyPopUp("emotionResults(): New Face Surprise Average: " + newFace.getSurprise(), this);
+
+        // Updates the fragment.
+        if (currentFragment != null) {
+            currentFragment.onUpdateFaceData(newFace);
+        }
 
         faceList.add(newFace); // Adds a new Face to the list.
+        ApiUtility.sendEmotionAnalytics(newFace); // Sends face data to the server.
         currentBitmapFrame = null; // Sets bitmap frame object to null.
     }
 }
