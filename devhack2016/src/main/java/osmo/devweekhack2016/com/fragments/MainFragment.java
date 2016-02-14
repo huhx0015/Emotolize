@@ -93,7 +93,7 @@ public class MainFragment extends Fragment {
         barChart.getAxisRight().setEnabled(false);
 
         XAxis xAxis = barChart.getXAxis();
-        xAxis.setEnabled(false);
+        xAxis.setEnabled(true);
 
         barChart.invalidate();
 
@@ -233,23 +233,21 @@ public class MainFragment extends Fragment {
                         ())));
 
         angerText.setText(String.format(getString(R.string.anger), convertFloatToPercent(face
-                .getAnger
-                        ())));
+                .getAnger())));
         contemptText.setText(String.format(getString(R.string.contempt), convertFloatToPercent(face
-                .getAnger())));
+                .getContempt())));
         disgustText.setText(String.format(getString(R.string.disgust), convertFloatToPercent(face
-                .getAnger())));
+                .getDisgust())));
         fearText.setText(String.format(getString(R.string.fear), convertFloatToPercent(face
-                .getAnger())));
+                .getFear())));
         happinessText.setText(String.format(getString(R.string.happiness), convertFloatToPercent
-                (face
-                        .getAnger())));
+                (face.getHappiness())));
         neutralText.setText(String.format(getString(R.string.neutral), convertFloatToPercent(face
-                .getAnger())));
+                .getHappiness())));
         sadnessText.setText(String.format(getString(R.string.sadness), convertFloatToPercent(face
-                .getAnger())));
+                .getSadness())));
         surpriseText.setText(String.format(getString(R.string.surprise), convertFloatToPercent(face
-                .getAnger())));
+                .getSurprise())));
 
     }
 }
