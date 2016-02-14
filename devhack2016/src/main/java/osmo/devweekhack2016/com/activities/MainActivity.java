@@ -12,6 +12,7 @@ import osmo.devweekhack2016.com.R;
 import osmo.devweekhack2016.com.image.EmotionApiUtil;
 import osmo.devweekhack2016.com.interfaces.OnEmotionResultsUpdated;
 import osmo.devweekhack2016.com.model.Face;
+import osmo.devweekhack2016.com.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements OnEmotionResultsUpdated {
 
@@ -27,6 +28,14 @@ public class MainActivity extends AppCompatActivity implements OnEmotionResultsU
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+
+            MainFragment mainFragment = new MainFragment();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main_fragment_container, mainFragment)
+                    .commit();
+        }
 
         if (client == null) {
             client = new EmotionServiceRestClient(getString(R.string.emotion_api_key));

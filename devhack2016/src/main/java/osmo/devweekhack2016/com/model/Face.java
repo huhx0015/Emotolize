@@ -1,5 +1,7 @@
 package osmo.devweekhack2016.com.model;
 
+import java.util.Date;
+
 /**
  * Created by Michael Yoon Huh on 2/13/2016.
  */
@@ -14,6 +16,7 @@ public class Face {
     private float sadness;
     private float surprise;
     private float[] faceRectangle;
+    private Date date;
 
     /** GET / SET METHODS ______________________________________________________________________ **/
 
@@ -87,5 +90,13 @@ public class Face {
 
     public void setFaceRectangle(float[] faceRectangle) {
         this.faceRectangle = faceRectangle;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
