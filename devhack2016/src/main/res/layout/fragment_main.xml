@@ -1,13 +1,69 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="osmo.devweekhack2016.com.fragments.MainFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="@string/main_fragment_title"
+        tools:text="@string/main_fragment_title"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/anger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/anger"
+        tools:text="anger"
+        />
+
+    <TextView
+        android:id="@+id/contempt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/contempt"
+        tools:text="@string/contempt"
+        />
+
+    <TextView
+        android:id="@+id/disgust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/disgust"/>
+
+    <TextView
+        android:id="@+id/fear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fear"/>
+
+    <TextView
+        android:id="@+id/happiness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/happiness"/>
+
+    <TextView
+        android:id="@+id/neutral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/neutral"/>
+
+    <TextView
+        android:id="@+id/sadness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sadness"/>
+
+    <TextView
+        android:id="@+id/surprise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/surprise"/>
+
+
+</LinearLayout>

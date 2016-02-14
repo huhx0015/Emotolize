@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">DevHack2016</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Strings for MainFragment
+    <string name="main_fragment_title">Data for %1$s</string>
+    <string name="anger">Anger:  %.2f</string>
+    <string name="contempt">Contempt:  %.2f</string>
+    <string name="disgust">Disgust:  %.2f</string>
+    <string name="fear">Fear:  %.2f</string>
+    <string name="happiness">Happiness: %.2f</string>
+    <string name="neutral">Neutral:  %.2f</string>
+    <string name="sadness">Sadness:  %.2f</string>
+    <string name="surprise">Surprise:  %.2f</string>
+
 </resources>
