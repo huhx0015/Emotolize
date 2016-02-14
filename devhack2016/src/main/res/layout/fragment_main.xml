@@ -1,69 +1,79 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/main_fragment_title"
-        tools:text="@string/main_fragment_title"
-        />
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:id="@+id/mainFragmentRoot"
+                  >
 
-    <TextView
-        android:id="@+id/anger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/anger"
-        tools:text="anger"
-        />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_fragment_title"
+            tools:text="@string/main_fragment_title"
+            />
 
-    <TextView
-        android:id="@+id/contempt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/contempt"
-        tools:text="@string/contempt"
-        />
+        <TextView
+            android:id="@+id/anger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/anger"
+            tools:text="anger"
+            />
 
-    <TextView
-        android:id="@+id/disgust"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/disgust"/>
+        <TextView
+            android:id="@+id/contempt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/contempt"
+            tools:text="@string/contempt"
+            />
 
-    <TextView
-        android:id="@+id/fear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fear"/>
+        <TextView
+            android:id="@+id/disgust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disgust"/>
 
-    <TextView
-        android:id="@+id/happiness"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/happiness"/>
+        <TextView
+            android:id="@+id/fear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fear"/>
 
-    <TextView
-        android:id="@+id/neutral"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/neutral"/>
+        <TextView
+            android:id="@+id/happiness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/happiness"/>
 
-    <TextView
-        android:id="@+id/sadness"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sadness"/>
+        <TextView
+            android:id="@+id/neutral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/neutral"/>
 
-    <TextView
-        android:id="@+id/surprise"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/surprise"/>
+        <TextView
+            android:id="@+id/sadness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sadness"/>
+
+        <TextView
+            android:id="@+id/surprise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/surprise"/>
 
 
-</LinearLayout>
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </LinearLayout>
+</ScrollView>
