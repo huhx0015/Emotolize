@@ -67,6 +67,13 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
+
+        onUpdateEmotions(getDummyData());
+
+        return view;
+    }
+
+    private Face getDummyData() {
         Face dummy = new Face();
         dummy.setAnger(.5f);
         dummy.setContempt(.5f);
@@ -77,12 +84,13 @@ public class MainFragment extends Fragment {
         dummy.setSadness(.5f);
         dummy.setSurprise(.5f);
         dummy.setDate(new Date());
-
-        onUpdateEmotions(dummy);
-
-        return view;
+        return dummy;
     }
 
+    private String[] getStringArrayData() {
+        return new String[]{"12", "11", "60", "56","12", "11", "60", "56"};
+
+    }
     public void onUpdateEmotions(Face face) {
         faceArrayList.add(face);
 
