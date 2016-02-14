@@ -4,6 +4,11 @@ buildscript {
     repositories {
         mavenCentral()
     }
+
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+
     repositories {
         jcenter()
     }
