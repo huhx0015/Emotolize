@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 import dji.sdk.SDKManager.DJISDKManager;
 import dji.sdk.base.DJIBaseComponent;
 import dji.sdk.base.DJIBaseProduct;
@@ -15,7 +14,7 @@ import dji.sdk.base.DJISDKError;
 /**
  * Created by Michael Yoon Huh on 2/13/2016.
  *
- * Code based off of tutorial found at: https://github.com/DJI-Mobile-SDK/Android-FPVDemo
+ * Code adapted from DJI Video Tutorial found at: https://github.com/DJI-Mobile-SDK/Android-FPVDemo
  */
 public class EmotilizeApplication extends Application {
 
@@ -53,19 +52,19 @@ public class EmotilizeApplication extends Application {
         public void onGetRegisteredResult(DJIError djiError) {
             if (djiError == DJISDKError.REGISTRATION_SUCCESS) {
                 DJISDKManager.getInstance().startConnectionToProduct();
-                Toast.makeText(getApplicationContext(), "SDK Registration was successful. Please connect your device to the OSMO WI-FI network and re-launch the app.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "SDK Registration was successful. Please connect your device to the OSMO WI-FI network and re-launch the app.", Toast.LENGTH_LONG).show();
             } else {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "SDK Registration failed. Please connect your device to an active Internet connection and try again.", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "SDK Registration failed. Please connect your device to an active Internet connection and try again.", Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
-            Log.e("TAG", djiError.toString());
+            Log.e(TAG, djiError.toString());
         }
 
         //Listens to the connected product changing, including two parts, component changing or product connection changing.
@@ -122,5 +121,4 @@ public class EmotilizeApplication extends Application {
             sendBroadcast(intent);
         }
     };
-
 }

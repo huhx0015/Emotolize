@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.TextureView;
+import android.widget.LinearLayout;
 import com.microsoft.projectoxford.emotion.EmotionServiceClient;
 import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.Bind;
@@ -37,9 +41,13 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     private static int INTERVAL_CHECK = 30000; // Sets interval to 30 seconds.
 
+    private boolean useOsmoCamera = false; // TRUE: OSMO CAMERA | FALSE: ANDROID CAMERA
+
     private Bitmap currentBitmapFrame = Bitmap.createBitmap(1280, 720, Bitmap.Config.ARGB_8888); // Stores the current Bitmap frame.
     private EmotionServiceClient client;
     private Handler dataImageHandler = new Handler(); // Handler for the data thread.
+
+    private Camera mCamera;
     private DJIBaseProduct djiProduct = null;
     private DJICamera djiCamera = null;
 
@@ -79,23 +87,38 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     public void onResume() {
         super.onResume();
 
-        OsmoUtil.initDevice(mReceivedVideoDataCallBack, mOnReceivedVideoCallback, this);
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
+            OsmoUtil.initDevice(mReceivedVideoDataCallBack, mOnReceivedVideoCallback, this);
+        } else {
+            startImageProcessingThread(true); // Starts the image processing thread.
+        }
 
         if (videoTextureView == null) {
-            Log.e(LOG_TAG, "videoTextureView is null");
+            Log.e(LOG_TAG, "onResume(): videoTextureView is null.");
         }
     }
 
     @Override
     public void onPause() {
         startImageProcessingThread(false); // Stops the image processing thread.
-        OsmoUtil.uninitDevice(this);
+
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
+            OsmoUtil.uninitDevice(this);
+        }
+
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        OsmoUtil.uninitDevice(this);
+
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
+            OsmoUtil.uninitDevice(this);
+        }
+
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }
@@ -104,9 +127,40 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        if (mCodecManager == null) {
-            Log.e(LOG_TAG, "mCodecManager is null 2");
-            mCodecManager = new DJICodecManager(this, surface, width, height);
+
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
+
+            Log.d(LOG_TAG, "onSurfaceTextureAvailable(): Using OSMO Camera as source device.");
+
+            if (mCodecManager == null) {
+                Log.e(LOG_TAG, "onSurfaceTextureAvailable(): mCodecManager is null.");
+                mCodecManager = new DJICodecManager(this, surface, width, height);
+            }
+        }
+
+        // ANDROID CAMERA MODE:
+        else {
+
+            Log.d(LOG_TAG, "onSurfaceTextureAvailable(): Using Android Camera as source device.");
+
+            mCamera = Camera.open(); // Opens the camera.
+            Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
+
+//            videoTextureView.setLayoutParams(new LinearLayout.LayoutParams(
+//                    previewSize.width, previewSize.height, Gravity.CENTER));
+
+            try {
+                mCamera.setPreviewTexture(surface);
+            }
+
+            catch (IOException t) {
+                Log.e(LOG_TAG, "onSurfaceTextureAvailable(): ERROR: I/O Exception occurred: " + t.getMessage());
+            }
+
+            mCamera.startPreview();
+            videoTextureView.setAlpha(1.0f);
+//            videoTextureView.setRotation(90.0f);
         }
     }
 
@@ -115,9 +169,19 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        if (mCodecManager != null) {
-            mCodecManager.cleanSurface();
-            mCodecManager = null;
+
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
+            if (mCodecManager != null) {
+                mCodecManager.cleanSurface();
+                mCodecManager = null;
+            }
+        }
+
+        // ANDROID CAMERA MODE:
+        else {
+            mCamera.stopPreview();
+            mCamera.release();
         }
 
         return false;
@@ -134,32 +198,37 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
             videoTextureView.setSurfaceTextureListener(this);
         }
 
-        // The callback for receiving the raw H264 video data for camera live view
-        mReceivedVideoDataCallBack = new DJICamera.CameraReceivedVideoDataCallback() {
+        // OSMO CAMERA MODE:
+        if (useOsmoCamera) {
 
-            @Override
-            public void onResult(byte[] videoBuffer, int size) {
-                if(mCodecManager != null){
+            // The callback for receiving the raw H264 video data for camera live view.
+            mReceivedVideoDataCallBack = new DJICamera.CameraReceivedVideoDataCallback() {
 
-                    // Send the raw H264 video data to codec manager for decoding
-                    mCodecManager.sendDataToDecoder(videoBuffer, size);
-                } else {
-                    Log.e(LOG_TAG, "initVideoProcessing(): mCodecManager is null.");
+                @Override
+                public void onResult(byte[] videoBuffer, int size) {
+                    if (mCodecManager != null) {
+
+                        // Send the raw H264 video data to codec manager for decoding
+                        mCodecManager.sendDataToDecoder(videoBuffer, size);
+                    } else {
+                        Log.e(LOG_TAG, "initVideoProcessing(): mCodecManager is null.");
+                    }
                 }
-            }
-        };
+            };
 
-        // The callback for receiving the raw video data from Airlink.
-        mOnReceivedVideoCallback = new DJILBAirLink.DJIOnReceivedVideoCallback() {
+            // The callback for receiving the raw video data from Airlink.
+            mOnReceivedVideoCallback = new DJILBAirLink.DJIOnReceivedVideoCallback() {
 
-            @Override
-            public void onResult(byte[] videoBuffer, int size) {
-                if(mCodecManager != null){
-                    // Send the raw H264 video data to codec manager for decoding
-                    mCodecManager.sendDataToDecoder(videoBuffer, size);
+                @Override
+                public void onResult(byte[] videoBuffer, int size) {
+
+                    // Send the raw H264 video data to codec manager for decoding.
+                    if (mCodecManager != null) {
+                        mCodecManager.sendDataToDecoder(videoBuffer, size);
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 
     /** THREAD METHODS _________________________________________________________________________ **/
@@ -167,8 +236,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     public void startImageProcessingThread(boolean isStart) {
         if (isStart) {
             Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread started.");
-            videoTextureView.getBitmap(currentBitmapFrame);
-            //currentBitmapFrame = videoTextureView.getBitmap(); // Gets the current bitmap from the TextureView.
+            videoTextureView.getBitmap(currentBitmapFrame); // Gets the current bitmap from the TextureView.
             dataImageHandler.postDelayed(dataProcessThread, 1000); // Begins thread callbacks.
         } else {
             Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread stopped.");
