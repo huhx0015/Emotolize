@@ -1,5 +1,6 @@
 package osmo.devweekhack2016.com.activities;
 
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
 import java.util.LinkedList;
 import java.util.List;
 import osmo.devweekhack2016.com.R;
+import osmo.devweekhack2016.com.application.EmotilizeApplication;
 import osmo.devweekhack2016.com.image.EmotionApiUtil;
 import osmo.devweekhack2016.com.interfaces.OnEmotionResultsUpdated;
 import osmo.devweekhack2016.com.model.Face;
@@ -40,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements OnEmotionResultsU
         if (client == null) {
             client = new EmotionServiceRestClient(getString(R.string.emotion_api_key));
         }
+
+        // Register the broadcast receiver for receiving the device connection's changes.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(EmotilizeApplication.FLAG_CONNECTION_CHANGE);
+        registerReceiver(mReceiver, filter);
     }
 
     public void startImageProcessingThread(boolean isStart) {
