@@ -259,7 +259,7 @@ public class MainFragment extends Fragment {
         happinessText.setText(String.format(getString(R.string.happiness), convertFloatToPercent
                 (face.getHappiness())));
         neutralText.setText(String.format(getString(R.string.neutral), convertFloatToPercent(face
-                .getHappiness())));
+                .getNeutral())));
         sadnessText.setText(String.format(getString(R.string.sadness), convertFloatToPercent(face
                 .getSadness())));
         surpriseText.setText(String.format(getString(R.string.surprise), convertFloatToPercent(face
