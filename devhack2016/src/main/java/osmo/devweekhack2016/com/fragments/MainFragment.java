@@ -241,9 +241,12 @@ public class MainFragment extends Fragment {
 
     private void addFaceDataToTextViews(Face face) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
-        titleText.setText(String.format(getString(R.string.main_fragment_title), sdf.format(face
-                .getDate
-                        ())));
+
+        if (face.getDate() != null) {
+            titleText.setText(String.format(getString(R.string.main_fragment_title), sdf.format(face
+                    .getDate
+                            ())));
+        }
 
         angerText.setText(String.format(getString(R.string.anger), convertFloatToPercent(face
                 .getAnger())));
