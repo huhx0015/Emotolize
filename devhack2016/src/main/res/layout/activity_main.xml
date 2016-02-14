@@ -9,8 +9,9 @@
     <TextureView
         android:id="@+id/video_preview_surface"
         android:layout_width="wrap_content"
-        android:layout_height="192dp"
-        android:layout_gravity="center" />
+        android:layout_height="320dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp" />
 
     <ImageView
         android:layout_width="wrap_content"
