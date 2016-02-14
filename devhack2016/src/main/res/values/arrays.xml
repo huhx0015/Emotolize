@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="emotions_array">
+        <item>anger</item>
+        <item>contempt</item>
+        <item>disgust</item>
+        <item>fear</item>
+        <item>happiness</item>
+        <item>neutral</item>
+        <item>sadness</item>
+        <item>surprise</item>
+    </string-array>
+</resources>

@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    //Strings for MainFragment
+    //Strings for MainFragment TextViews
     <string name="main_fragment_title">Data for %1$s</string>
     <string name="anger">Anger:  %.2f</string>
     <string name="contempt">Contempt:  %.2f</string>
@@ -14,5 +14,9 @@
     <string name="neutral">Neutral:  %.2f</string>
     <string name="sadness">Sadness:  %.2f</string>
     <string name="surprise">Surprise:  %.2f</string>
+
+    //Strings for MainFragment BarChart
+    <string name="bar_chart_title">The Mob Mentality</string>
+
 
 </resources>

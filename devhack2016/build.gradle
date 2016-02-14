@@ -20,12 +20,15 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
     compile project(':DJI-SDK-LIB')
-    compile project(':emotion-lib')
 
     // ANDROID SUPPORT LIBRARIES
     compile 'com.android.support:appcompat-v7:23.1.1'
@@ -46,6 +49,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.0.0-RC1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.2'
 
     // MICROSOFT LIBRARIES
     compile 'com.microsoft.projectoxford:emotion:1.0.0'
