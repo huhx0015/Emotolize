@@ -138,7 +138,7 @@ public class EmotionApiUtil {
 
         private AppCompatActivity activity;
         private Exception e = null; // Store error message.
-        private boolean useFaceRectangles = true; // Uses the Face rectangle parameters.
+        private boolean useFaceRectangles = false; // Uses the Face rectangle parameters.
 
         public doRequest(Bitmap bitmap, EmotionServiceClient client, AppCompatActivity activity) {
             this.bitmap = bitmap;

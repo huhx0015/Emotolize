@@ -24,5 +24,6 @@ package osmo.devweekhack2016.com.interfaces;
  response(JSON)
  ok
  */
+
 public interface RetrofitInterface {
 }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.TextureView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.microsoft.projectoxford.emotion.EmotionServiceClient;
 import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private static int INTERVAL_CHECK = 30000; // Sets interval to 30 seconds.
+    private static int INTERVAL_CHECK = 10000; // Sets interval to 30 seconds.
 
     private boolean useOsmoCamera = false; // TRUE: OSMO CAMERA | FALSE: ANDROID CAMERA
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     private List<Face> faceList = new LinkedList<>();
 
     @Bind(R.id.video_preview_surface) TextureView videoTextureView;
+    @Bind(R.id.testImageView) ImageView testImageView;
 
     /** ACTIVITY LIFECYCLE METHODS _____________________________________________________________ **/
 
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
             mCamera.startPreview();
             videoTextureView.setAlpha(1.0f);
-//            videoTextureView.setRotation(90.0f);
+            videoTextureView.setRotation(90.0f);
         }
     }
 
@@ -236,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     public void startImageProcessingThread(boolean isStart) {
         if (isStart) {
             Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread started.");
-            videoTextureView.getBitmap(currentBitmapFrame); // Gets the current bitmap from the TextureView.
             dataImageHandler.postDelayed(dataProcessThread, 1000); // Begins thread callbacks.
         } else {
             Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread stopped.");
@@ -250,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
         public void run() {
 
             Log.d(LOG_TAG, "dataProcessThread(): Data process thread running...");
+
+            currentBitmapFrame = videoTextureView.getBitmap(); // Gets the current bitmap from the TextureView.
+
+            testImageView.setImageBitmap(currentBitmapFrame);
 
             // If currentBitmapFrame is not null, the bitmap is processed.
             if (currentBitmapFrame != null) {
