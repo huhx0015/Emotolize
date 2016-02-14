@@ -5,6 +5,8 @@ Team: Michael Huh, Ssurey Moon, Olivia Dodge, Steve Lee, Michael Campos
 
 Platform: Android, Web
 
+![screenshot_2016-02-14-15-23-56](https://cloud.githubusercontent.com/assets/1645482/13037149/733a400a-d32f-11e5-9b21-a52ceba1e175.png)
+
 Event: DeveloperWeek 2016 Hackathon
 
 Date: February 13 - 14, 2016
