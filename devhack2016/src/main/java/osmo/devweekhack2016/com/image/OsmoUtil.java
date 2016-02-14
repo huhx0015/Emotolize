@@ -2,7 +2,6 @@ package osmo.devweekhack2016.com.image;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-
 import dji.sdk.AirLink.DJILBAirLink;
 import dji.sdk.Camera.DJICamera;
 import dji.sdk.Camera.DJICameraSettingsDef;
