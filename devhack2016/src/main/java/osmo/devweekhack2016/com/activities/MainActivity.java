@@ -5,18 +5,25 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.microsoft.projectoxford.emotion.EmotionServiceClient;
 import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
 import java.util.LinkedList;
 import java.util.List;
+
+import dji.sdk.Camera.DJICamera;
+import dji.sdk.base.DJIBaseProduct;
 import osmo.devweekhack2016.com.R;
 import osmo.devweekhack2016.com.application.EmotilizeApplication;
 import osmo.devweekhack2016.com.image.EmotionApiUtil;
+import osmo.devweekhack2016.com.image.OsmoUtil;
+import osmo.devweekhack2016.com.interfaces.OnDeviceConnected;
 import osmo.devweekhack2016.com.interfaces.OnEmotionResultsUpdated;
 import osmo.devweekhack2016.com.model.Face;
 import osmo.devweekhack2016.com.fragments.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements OnEmotionResultsUpdated {
+public class MainActivity extends AppCompatActivity implements OnDeviceConnected, OnEmotionResultsUpdated {
 
     private static int INTERVAL_CHECK = 30000; // Sets interval to 30 seconds.
 
@@ -25,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements OnEmotionResultsU
     private Handler dataImageHandler = new Handler(); // Handler for the data thread.
 
     private List<Face> faceList = new LinkedList<>();
+
+    /** ACTIVITY LIFECYCLE METHODS _____________________________________________________________ **/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,20 @@ public class MainActivity extends AppCompatActivity implements OnEmotionResultsU
         filter.addAction(EmotilizeApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        OsmoUtil.initDevice(this);
+    }
+
+    @Override
+    public void onPause() {
+        OsmoUtil.uninitDevice(this);
+        super.onPause();
+    }
+
+    /** THREAD METHODS _________________________________________________________________________ **/
 
     public void startImageProcessingThread(boolean isStart) {
         if (isStart) {
@@ -73,6 +96,14 @@ public class MainActivity extends AppCompatActivity implements OnEmotionResultsU
             dataImageHandler.postDelayed(this, INTERVAL_CHECK); // Thread is run again in 30000 ms.
         }
     };
+
+    /** INTERFACE METHODS ______________________________________________________________________ **/
+
+    // deviceConnected(): This method is run after the
+    @Override
+    public void deviceConnected(DJIBaseProduct product, DJICamera Camera) {
+
+    }
 
     // emotionResults(): Retrieves face emotion results.
     @Override
