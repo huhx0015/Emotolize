@@ -39,6 +39,8 @@ public class EmotionApiUtil {
     // processImageForEmotions(): Processes bitmap images to retrieve the emotion data result..
     public static void processImageForEmotions(Bitmap bitmap, EmotionServiceClient client, AppCompatActivity activity) {
 
+        Log.d(LOG_TAG, "processImageForEmotions(): Beginning image processing...");
+
         // Do emotion detection using auto-detected faces.
         try {
             new doRequest(bitmap, client, activity).execute();
@@ -151,7 +153,6 @@ public class EmotionApiUtil {
                     return processWithAutoFaceDetection(bitmap, client);
                 } catch (Exception e) {
                     this.e = e; // Stores error.
-                    ToastUtil.toastyPopUp("ERROR: " + e.getMessage(), activity);
                     Log.e(LOG_TAG, "doRequest(): ERROR: " + e.getMessage());
                 }
             } else {
@@ -159,7 +160,6 @@ public class EmotionApiUtil {
                     return processWithFaceRectangles(bitmap, client, activity);
                 } catch (Exception e) {
                     this.e = e; // Stores error.
-                    ToastUtil.toastyPopUp("ERROR: " + e.getMessage(), activity);
                     Log.e(LOG_TAG, "doRequest(): ERROR: " + e.getMessage());
                 }
             }
