@@ -175,14 +175,14 @@ public class MainFragment extends Fragment {
     private ArrayList<BarEntry> getBarEntriesFromFace(Face face) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        barEntries.add(new BarEntry(face.getAnger(), 0, getString(R.string.anger)));
-        barEntries.add(new BarEntry(face.getContempt(), 1, getString(R.string.contempt)));
-        barEntries.add(new BarEntry(face.getDisgust(), 2, getString(R.string.disgust)));
-        barEntries.add(new BarEntry(face.getFear(), 3, getString(R.string.fear)));
-        barEntries.add(new BarEntry(face.getHappiness(), 4,getString(R.string.happiness)));
-        barEntries.add(new BarEntry(face.getNeutral(), 5, getString(R.string.neutral)));
-        barEntries.add(new BarEntry(face.getSadness(), 6, getString(R.string.sadness)));
-        barEntries.add(new BarEntry(face.getSurprise(), 7, getString(R.string.surprise)));
+        barEntries.add(new BarEntry(face.getAnger(), 7, getString(R.string.anger)));
+        barEntries.add(new BarEntry(face.getContempt(), 6, getString(R.string.contempt)));
+        barEntries.add(new BarEntry(face.getDisgust(), 5, getString(R.string.disgust)));
+        barEntries.add(new BarEntry(face.getFear(), 4, getString(R.string.fear)));
+        barEntries.add(new BarEntry(face.getHappiness(), 3,getString(R.string.happiness)));
+        barEntries.add(new BarEntry(face.getNeutral(), 2, getString(R.string.neutral)));
+        barEntries.add(new BarEntry(face.getSadness(), 1, getString(R.string.sadness)));
+        barEntries.add(new BarEntry(face.getSurprise(), 0, getString(R.string.surprise)));
 
         return barEntries;
     }
@@ -197,7 +197,7 @@ public class MainFragment extends Fragment {
         set.setBarSpacePercent(10f);
 
         int[] colors = {
-            Color.rgb(102, 255, 51),
+            Color.rgb(83, 198, 83),
             Color.rgb(51, 102, 255),
             Color.rgb(102, 153, 153),
             Color.rgb(255, 255, 0),
@@ -205,7 +205,6 @@ public class MainFragment extends Fragment {
             Color.rgb(102, 51, 0),
             Color.rgb(255, 102, 0),
             Color.rgb(255, 0, 0)
-
 
         };
         set.setColors(colors);

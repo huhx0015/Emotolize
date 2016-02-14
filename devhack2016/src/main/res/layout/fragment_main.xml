@@ -77,7 +77,6 @@
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:paddingLeft="16dp"
             android:layout_height="200dp" />
     </LinearLayout>
 </ScrollView>
