@@ -20,6 +20,8 @@ import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dji.sdk.AirLink.DJILBAirLink;
@@ -27,6 +29,7 @@ import dji.sdk.Camera.DJICamera;
 import dji.sdk.Codec.DJICodecManager;
 import dji.sdk.base.DJIBaseProduct;
 import osmo.devweekhack2016.com.R;
+import osmo.devweekhack2016.com.api.ApiUtility;
 import osmo.devweekhack2016.com.application.EmotilizeApplication;
 import osmo.devweekhack2016.com.image.EmotionApiUtil;
 import osmo.devweekhack2016.com.image.OsmoUtil;
@@ -254,15 +257,19 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
             currentBitmapFrame = videoTextureView.getBitmap(); // Gets the current bitmap from the TextureView.
 
-            testImageView.setImageBitmap(currentBitmapFrame);
+            //testImageView.setImageBitmap(currentBitmapFrame);
 
             // If currentBitmapFrame is not null, the bitmap is processed.
             if (currentBitmapFrame != null) {
                 Log.d(LOG_TAG, "dataProcessThread(): Bitmap image found. Processing image...");
                 EmotionApiUtil.processImageForEmotions(currentBitmapFrame, client, MainActivity.this);
+
+                // TODO: Sending fake Face data to server.
+                Face fakeFaceData = new Face(1, 0.10f, 0.20f, 0.30f, 0.10f, 0.10f, 0.10f, 0.10f, 0.10f);
+                ApiUtility.sendEmotionAnalytics(fakeFaceData);
             }
 
-            dataImageHandler.postDelayed(this, INTERVAL_CHECK); // Thread is run again in 30000 ms.
+            dataImageHandler.postDelayed(this, INTERVAL_CHECK); // Thread is run again in 10000 ms.
         }
     };
 

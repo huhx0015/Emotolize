@@ -5,5 +5,5 @@ package osmo.devweekhack2016.com.api;
  */
 public class ApiConstants {
 
-    public static final String BASE_URL = "http://ec2-54-200-226-3.us-west-2.compute.amazonaws.com/";
+    public static final String BASE_URL = "http://ec2-54-200-226-3.us-west-2.compute.amazonaws.com";
 }

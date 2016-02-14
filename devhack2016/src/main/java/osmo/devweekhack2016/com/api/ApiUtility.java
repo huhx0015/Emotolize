@@ -1,8 +1,14 @@
 package osmo.devweekhack2016.com.api;
 
-import com.squareup.okhttp.OkHttpClient;
-
+import android.util.Log;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import osmo.devweekhack2016.com.interfaces.RetrofitInterface;
+import osmo.devweekhack2016.com.model.Face;
+import retrofit.Call;
+import retrofit.Callback;
 import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -14,30 +20,56 @@ public class ApiUtility {
 
     /** RETROFIT METHODS _______________________________________________________________________ **/
 
-    private void retrieveEmotionAnalytics() {
+    public static void sendEmotionAnalytics(Face faceData) {
+
+        // Adds logging for Retrofit.
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         Retrofit retrofitAdapter = new Retrofit.Builder()
                 .baseUrl(ApiConstants.BASE_URL)
-                .client(new OkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        // TODO: Implement Retrofit request here later.
+        RetrofitInterface apiRequest = retrofitAdapter.create(RetrofitInterface.class);
 
-//        issuesListResult = new ArrayList<>();
+        Call<String> call = apiRequest.sendFaceString(faceData);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Response<String> response, Retrofit retrofit) {
+                Log.d(LOG_TAG, "sendEmotionAnalytics(): Response received.");
+                if (response.isSuccess()) {
+                    Log.d(LOG_TAG, "sendEmotionAnalytics(): Face data transmission was successful.");
+                } else {
+                    Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + t.getMessage());
+            }
+        });
+
+//        Call<Face> call = apiRequest.sendFace(faceData);
 //
-//        RetrofitInterface apiRequest = retrofitAdapter.create(RetrofitInterface.class);
-//        Call<List<Face>> call = apiRequest.getIssues(ApiConstants.BASE_URL);
-//
-//        call.enqueue(new Callback<List<Face>>() {
+//        call.enqueue(new Callback<Face>() {
 //
 //            @Override
-//            public void onResponse(Response<List<Issue>> response, Retrofit retrofit) {
+//            public void onResponse(Response<Face> response, Retrofit retrofit) {
+//                Log.d(LOG_TAG, "sendEmotionAnalytics(): Response received.");
 //                if (response.isSuccess()) {
+//                    Log.d(LOG_TAG, "sendEmotionAnalytics(): Face data transmission was successful.");
+//                } else {
+//                    Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + response.message());
+//                }
 //            }
 //
 //            @Override
 //            public void onFailure(Throwable t) {
+//                Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + t.getMessage());
 //            }
 //        });
     }

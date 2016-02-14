@@ -1,5 +1,10 @@
 package osmo.devweekhack2016.com.interfaces;
 
+import osmo.devweekhack2016.com.model.Face;
+import retrofit.Call;
+import retrofit.http.Body;
+import retrofit.http.POST;
+
 /**
  * Created by Michael Yoon Huh on 2/14/2016.
  *
@@ -26,4 +31,17 @@ package osmo.devweekhack2016.com.interfaces;
  */
 
 public interface RetrofitInterface {
+
+    //POST /api/emotion/
+    @POST("/api/emotion/")
+    Call<Face> sendFace(@Body Face face);
+
+    //POST /api/emotion/
+    @POST("/api/emotion/")
+    Call<String> sendFaceString(@Body Face face);
+
+    //POST /api/emotion/done
+    @POST("/api/emotion/done")
+    Call<Face> streamingDone();
+
 }

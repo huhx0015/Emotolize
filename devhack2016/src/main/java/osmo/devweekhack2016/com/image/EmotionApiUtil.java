@@ -19,6 +19,7 @@ import com.microsoft.projectoxford.face.contract.Face;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import osmo.devweekhack2016.com.R;
 import osmo.devweekhack2016.com.data.MathUtil;
@@ -140,6 +141,8 @@ public class EmotionApiUtil {
         private Exception e = null; // Store error message.
         private boolean useFaceRectangles = false; // Uses the Face rectangle parameters.
 
+        private List<RecognizeResult> resultList = new ArrayList<>();
+
         public doRequest(Bitmap bitmap, EmotionServiceClient client, AppCompatActivity activity) {
             this.bitmap = bitmap;
             this.client = client;
@@ -150,14 +153,16 @@ public class EmotionApiUtil {
         protected List<RecognizeResult> doInBackground(String... args) {
             if (this.useFaceRectangles == false) {
                 try {
-                    return processWithAutoFaceDetection(bitmap, client);
+                    resultList = processWithAutoFaceDetection(bitmap, client);
+                    return resultList;
                 } catch (Exception e) {
                     this.e = e; // Stores error.
                     Log.e(LOG_TAG, "doRequest(): ERROR: " + e.getMessage());
                 }
             } else {
                 try {
-                    return processWithFaceRectangles(bitmap, client, activity);
+                    resultList = processWithFaceRectangles(bitmap, client, activity);
+                    return resultList;
                 } catch (Exception e) {
                     this.e = e; // Stores error.
                     Log.e(LOG_TAG, "doRequest(): ERROR: " + e.getMessage());
@@ -170,12 +175,12 @@ public class EmotionApiUtil {
         protected void onPostExecute(List<RecognizeResult> result) {
             super.onPostExecute(result);
 
-            if (result.size() == 0) {
-                ToastUtil.toastyPopUp("ERROR: No emotion detected.", activity);
-                Log.e(LOG_TAG, "doRequest(): ERROR: No emotion detected.");
+            if (resultList.size() == 0) {
+                ToastUtil.toastyPopUp("ERROR: No faces were detected.", activity);
+                Log.e(LOG_TAG, "doRequest(): ERROR: No faces were detected.");
             } else {
 
-                Log.d(LOG_TAG, "doRequest(): " + result.size() + " faces detected in image.");
+                Log.d(LOG_TAG, "doRequest(): " + resultList.size() + " faces detected in image.");
 
                 // TODO: Draws a rectangle around the recognized faces.
 //                Integer count = 0;
@@ -188,7 +193,7 @@ public class EmotionApiUtil {
 
                 // Calculates the face emotion averages of the result and updates the attached
                 // activity.
-                updateFace(MathUtil.calculateEmotionAverages(result));
+                updateFace(MathUtil.calculateEmotionAverages(resultList));
             }
         }
 
