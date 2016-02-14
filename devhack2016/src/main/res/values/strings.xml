@@ -6,14 +6,14 @@
 
     //Strings for MainFragment TextViews
     <string name="main_fragment_title">Data for %1$s</string>
-    <string name="anger">Anger:  %.2f</string>
-    <string name="contempt">Contempt:  %.2f</string>
-    <string name="disgust">Disgust:  %.2f</string>
-    <string name="fear">Fear:  %.2f</string>
-    <string name="happiness">Happiness: %.2f</string>
-    <string name="neutral">Neutral:  %.2f</string>
-    <string name="sadness">Sadness:  %.2f</string>
-    <string name="surprise">Surprise:  %.2f</string>
+    <string name="anger">Anger:  %.2f percent</string>
+    <string name="contempt">Contempt:  %.2f percent</string>
+    <string name="disgust">Disgust:  %.2f percent</string>
+    <string name="fear">Fear:  %.2f percent</string>
+    <string name="happiness">Happiness: %.2f percent</string>
+    <string name="neutral">Neutral:  %.2f percent</string>
+    <string name="sadness">Sadness:  %.2f percent</string>
+    <string name="surprise">Surprise:  %.2f percent</string>
 
     //Strings for MainFragment BarChart
     <string name="bar_chart_title">The Mob Mentality</string>

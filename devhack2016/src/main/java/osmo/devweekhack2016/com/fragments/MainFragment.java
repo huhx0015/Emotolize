@@ -86,11 +86,12 @@ public class MainFragment extends Fragment {
         barChart.setDrawGridBackground(false);
         barChart.setDrawBarShadow(false);
         barChart.setDescription(null);
+        barChart.setTouchEnabled(false);
 
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setAxisMinValue(0f);
 
-        barChart.getAxisRight().setEnabled(false);
+        barChart.getAxisRight().setEnabled(true);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setEnabled(true);
@@ -157,29 +158,13 @@ public class MainFragment extends Fragment {
             IBarDataSet newBarData = createBarChartDataSet(barEntries);
             allBarData.addDataSet(newBarData);
 
-//            if (barData == null) {
-//                barData = createBarChartDataSet(barEntries);
-//                allBarData.addDataSet(barData);
-//            }
-
-
-//            // add a new x-value first
-//            allBarData.addXValue(barData.getEntryCount() + "");
-//
-//            // choose a random dataSet
-//            int randomDataSetIndex = (int) (Math.random() * allBarData.getDataSetCount());
-//
-//            allBarData.addEntry(new Entry((float) (Math.random() * 10) + 50f, barData.getEntryCount
-//                            ()),
-//                    randomDataSetIndex);
-
             // let the chart know it's barData has changed
             barChart.notifyDataSetChanged();
 
             barChart.setVisibleXRangeMaximum(8);
             barChart.setVisibleYRangeMaximum(15, YAxis.AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
+
+            // this automatically refreshes the chart (calls invalidate())
             barChart.moveViewTo(allBarData.getXValCount()-7, 50f, YAxis.AxisDependency.LEFT);
 
         }
@@ -207,7 +192,7 @@ public class MainFragment extends Fragment {
     private BarDataSet createBarChartDataSet(List<BarEntry> yVals) {
 
         BarDataSet set = new BarDataSet(yVals, getString(R.string.bar_chart_title));
-        set.setBarSpacePercent(0.1f);
+        set.setBarSpacePercent(10f);
         set.setColor(Color.rgb(240, 99, 99));
         set.setBarShadowColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
