@@ -20,7 +20,7 @@ import dji.sdk.base.DJISDKError;
 public class EmotilizeApplication extends Application {
 
     private static final String TAG = EmotilizeApplication.class.getName();
-    public static final String FLAG_CONNECTION_CHANGE = "com_example_fpv_tutorial_connection_change";
+    public static final String FLAG_CONNECTION_CHANGE = "emotilize_connection_change";
     private static DJIBaseProduct mProduct;
     private Handler mHandler;
 
@@ -53,13 +53,14 @@ public class EmotilizeApplication extends Application {
         public void onGetRegisteredResult(DJIError djiError) {
             if (djiError == DJISDKError.REGISTRATION_SUCCESS) {
                 DJISDKManager.getInstance().startConnectionToProduct();
+                Toast.makeText(getApplicationContext(), "SDK Registration was successful. Please connect your device to the OSMO WI-FI network and re-launch the app.", Toast.LENGTH_LONG).show();
             } else {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "register sdk fails, check network is available", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "SDK Registration failed. Please connect your device to an active Internet connection and try again.", Toast.LENGTH_LONG).show();
                     }
                 });
             }

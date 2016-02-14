@@ -29,6 +29,7 @@ import osmo.devweekhack2016.com.interfaces.OnDeviceConnected;
 import osmo.devweekhack2016.com.interfaces.OnEmotionResultsUpdated;
 import osmo.devweekhack2016.com.model.Face;
 import osmo.devweekhack2016.com.fragments.MainFragment;
+import osmo.devweekhack2016.com.ui.ToastUtil;
 
 public class MainActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener, OnDeviceConnected, OnEmotionResultsUpdated {
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     private static int INTERVAL_CHECK = 30000; // Sets interval to 30 seconds.
 
-    private Bitmap currentBitmapFrame; // Stores the current Bitmap frame.
+    private Bitmap currentBitmapFrame = Bitmap.createBitmap(1280, 720, Bitmap.Config.ARGB_8888); // Stores the current Bitmap frame.
     private EmotionServiceClient client;
     private Handler dataImageHandler = new Handler(); // Handler for the data thread.
     private DJIBaseProduct djiProduct = null;
@@ -77,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     @Override
     public void onResume() {
         super.onResume();
-        OsmoUtil.initDevice(this);
+
+        OsmoUtil.initDevice(mReceivedVideoDataCallBack, mOnReceivedVideoCallback, this);
+
         if (videoTextureView == null) {
             Log.e(LOG_TAG, "videoTextureView is null");
         }
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     @Override
     public void onPause() {
+        startImageProcessingThread(false); // Stops the image processing thread.
         OsmoUtil.uninitDevice(this);
         super.onPause();
     }
@@ -100,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        Log.e(LOG_TAG,"onSurfaceTextureAvailable");
         if (mCodecManager == null) {
             Log.e(LOG_TAG, "mCodecManager is null 2");
             mCodecManager = new DJICodecManager(this, surface, width, height);
@@ -108,13 +111,10 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     }
 
     @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-        Log.e(LOG_TAG,"onSurfaceTextureSizeChanged");
-    }
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {}
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        Log.e(LOG_TAG,"onSurfaceTextureDestroyed");
         if (mCodecManager != null) {
             mCodecManager.cleanSurface();
             mCodecManager = null;
@@ -124,9 +124,7 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     }
 
     @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        Log.e(LOG_TAG, "onSurfaceTextureUpdated");
-    }
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {}
 
     /** VIDEO METHODS __________________________________________________________________________ **/
 
@@ -168,11 +166,12 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
     public void startImageProcessingThread(boolean isStart) {
         if (isStart) {
-
-            // TODO: Retrieve bitmap data from camera device.
-            //currentBitmapFrame = OsmoUtil.fetchBitmapFromCamera();
+            Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread started.");
+            videoTextureView.getBitmap(currentBitmapFrame);
+            //currentBitmapFrame = videoTextureView.getBitmap(); // Gets the current bitmap from the TextureView.
             dataImageHandler.postDelayed(dataProcessThread, 1000); // Begins thread callbacks.
         } else {
+            Log.d(LOG_TAG, "startImageProcessingThread(): Image processing thread stopped.");
             currentBitmapFrame = null; // Sets bitmap frame object to null.
             dataImageHandler.removeCallbacks(dataProcessThread); // Removes thread callbacks.
         }
@@ -182,8 +181,11 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
 
         public void run() {
 
+            Log.d(LOG_TAG, "dataProcessThread(): Data process thread running...");
+
             // If currentBitmapFrame is not null, the bitmap is processed.
             if (currentBitmapFrame != null) {
+                Log.d(LOG_TAG, "dataProcessThread(): Bitmap image found. Processing image...");
                 EmotionApiUtil.processImageForEmotions(currentBitmapFrame, client, MainActivity.this);
             }
 
@@ -213,17 +215,41 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
     // deviceConnected(): This method is run after the device has been successfully connected.
     @Override
     public void deviceConnected(DJIBaseProduct product, DJICamera camera) {
+
+        Log.d(LOG_TAG, "deviceConnected(): Device has been connected.");
+
         this.djiProduct = product;
         this.djiCamera = camera;
 
         if (null != videoTextureView) {
             videoTextureView.setSurfaceTextureListener(this);
         }
+
+        startImageProcessingThread(true); // Starts the image processing thread.
     }
 
     // emotionResults(): Retrieves face emotion results.
     @Override
     public void emotionResults(Face newFace) {
+
+        Log.d(LOG_TAG, "emotionResults(): New Face Anger Average: " + newFace.getAnger());
+        Log.d(LOG_TAG, "emotionResults(): New Face Contempt Average: " + newFace.getContempt());
+        Log.d(LOG_TAG, "emotionResults(): New Face Disgust Average: " + newFace.getDisgust());
+        Log.d(LOG_TAG, "emotionResults(): New Face Fear Average: " + newFace.getFear());
+        Log.d(LOG_TAG, "emotionResults(): New Face Happiness Average: " + newFace.getHappiness());
+        Log.d(LOG_TAG, "emotionResults(): New Face Neutral Average: " + newFace.getNeutral());
+        Log.d(LOG_TAG, "emotionResults(): New Face Sadness Average: " + newFace.getSadness());
+        Log.d(LOG_TAG, "emotionResults(): New Face Surprise Average: " + newFace.getSurprise());
+
+        ToastUtil.toastyPopUp("emotionResults(): New Face Anger Average: " + newFace.getAnger(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Contempt Average: " + newFace.getContempt(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Disgust Average: " + newFace.getDisgust(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Fear Average: " + newFace.getFear(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Happiness Average: " + newFace.getHappiness(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Neutral Average: " + newFace.getNeutral(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Sadness Average: " + newFace.getSadness(), this);
+        ToastUtil.toastyPopUp("emotionResults(): New Face Surprise Average: " + newFace.getSurprise(), this);
+
         faceList.add(newFace); // Adds a new Face to the list.
         currentBitmapFrame = null; // Sets bitmap frame object to null.
     }

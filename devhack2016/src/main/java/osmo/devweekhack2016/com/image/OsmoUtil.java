@@ -2,6 +2,7 @@ package osmo.devweekhack2016.com.image;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import dji.sdk.AirLink.DJILBAirLink;
 import dji.sdk.Camera.DJICamera;
 import dji.sdk.Camera.DJICameraSettingsDef;
@@ -17,42 +18,55 @@ import osmo.devweekhack2016.com.ui.ToastUtil;
  */
 public class OsmoUtil {
 
-    public static void initDevice(AppCompatActivity activity) {
+    /** CLASS VARIABLES ________________________________________________________________________ **/
+
+    private static final String LOG_TAG = OsmoUtil.class.getSimpleName();
+
+    /** OSMO METHODS ___________________________________________________________________________ **/
+
+    public static void initDevice(DJICamera.CameraReceivedVideoDataCallback mReceivedVideoDataCallBack,
+                                  DJILBAirLink.DJIOnReceivedVideoCallback mOnReceivedVideoCallback,
+                                  AppCompatActivity activity) {
+
+        Log.d(LOG_TAG, "initDevice(): Device initializing...");
 
         DJIBaseProduct mProduct = null;
         DJICamera mCamera = null;
-        DJICamera.CameraReceivedVideoDataCallback mReceivedVideoDataCallBack = null;
-        DJILBAirLink.DJIOnReceivedVideoCallback mOnReceivedVideoCallback = null;
 
         try {
             mProduct = EmotilizeApplication.getProductInstance();
         } catch (Exception exception) {
             mProduct = null;
+            Log.e(LOG_TAG, "initDevice(): ERROR: Device failed to initialize: " + exception.getMessage());
         }
 
-        if (null == mProduct || !mProduct.isConnected()) {
-            ToastUtil.toastyPopUp("OSMO Camera device is disconnected. Please connect device.", activity);
-        } else {
-            if (!mProduct.getModel().equals(DJIBaseProduct.Model.UnknownAircraft)) {
-                mCamera = mProduct.getCamera();
-                if (mCamera != null){
+//        if (null == mProduct || !mProduct.isConnected()) {
+//            ToastUtil.toastyPopUp("OSMO Camera device is disconnected. Please connect device.", activity);
+//            Log.e(LOG_TAG, "initDevice(): ERROR: OSMO Camera device is disconnected. Please connect device.");
+//        } else {
 
-                    // Sets the callback.
-                    mCamera.setDJICameraReceivedVideoDataCallback(mReceivedVideoDataCallBack);
-                }
-            } else {
-                if (null != mProduct.getAirLink()) {
-                    if (null != mProduct.getAirLink().getLBAirLink()) {
+            Log.d(LOG_TAG, "initDevice(): Product is connected.");
 
-                        // Set the callback.
-                        mProduct.getAirLink().getLBAirLink().setDJIOnReceivedVideoCallback(mOnReceivedVideoCallback);
-                    }
-                }
-            }
+//            if (!mProduct.getModel().equals(DJIBaseProduct.Model.UnknownAircraft)) {
+//                mCamera = mProduct.getCamera();
+//                if (mCamera != null){
+//
+//                    // Sets the callback.
+//                    mCamera.setDJICameraReceivedVideoDataCallback(mReceivedVideoDataCallBack);
+//                }
+//            } else {
+//                if (null != mProduct.getAirLink()) {
+//                    if (null != mProduct.getAirLink().getLBAirLink()) {
+//
+//                        // Set the callback.
+//                        mProduct.getAirLink().getLBAirLink().setDJIOnReceivedVideoCallback(mOnReceivedVideoCallback);
+//                    }
+//                }
+//            }
 
             // Passes the DJIBaseProduct and DJICamera reference to the activity.
             deviceConnected(mProduct, mCamera, activity);
-        }
+        //}
     }
 
     public static void uninitDevice(Context context) {
