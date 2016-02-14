@@ -87,6 +87,7 @@ public class MainFragment extends Fragment {
         barChart.setDrawBarShadow(false);
         barChart.setDescription(null);
         barChart.setTouchEnabled(false);
+        barChart.getLegend().setEnabled(false);
 
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setAxisMinValue(0f);
@@ -94,6 +95,7 @@ public class MainFragment extends Fragment {
         barChart.getAxisRight().setEnabled(true);
 
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setDrawGridLines(false);
         xAxis.setEnabled(true);
 
         barChart.invalidate();
@@ -193,7 +195,20 @@ public class MainFragment extends Fragment {
 
         BarDataSet set = new BarDataSet(yVals, getString(R.string.bar_chart_title));
         set.setBarSpacePercent(10f);
-        set.setColor(Color.rgb(240, 99, 99));
+
+        int[] colors = {
+            Color.rgb(102, 255, 51),
+            Color.rgb(51, 102, 255),
+            Color.rgb(102, 153, 153),
+            Color.rgb(255, 255, 0),
+            Color.rgb(102, 0, 204),
+            Color.rgb(102, 51, 0),
+            Color.rgb(255, 102, 0),
+            Color.rgb(255, 0, 0)
+
+
+        };
+        set.setColors(colors);
         set.setBarShadowColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
         set.setValueTextSize(10f);
