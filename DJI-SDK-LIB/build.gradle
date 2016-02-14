@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.1'
+    compile 'com.google.code.gson:gson:2.5'
     compile files('libs/bouncycastle.jar')
     compile files('libs/dji-sdk.jar')
     compile files('libs/eventbus.jar')
