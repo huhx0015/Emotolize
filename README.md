@@ -5,11 +5,15 @@ Team: Michael Huh, Ssurey Moon, Olivia Dodge, Steve Lee, Michael Campos
 
 Platform: Android, Web
 
+![screenshot_2016-02-14-15-23-56](https://cloud.githubusercontent.com/assets/1645482/13037149/733a400a-d32f-11e5-9b21-a52ceba1e175.png)
+
 Event: DeveloperWeek 2016 Hackathon
 
 Date: February 13 - 14, 2016
 
 Event Website: http://www.developerweek.com/hackathon/
+
+Accelerate.im: http://accelerate.im/projects/467
 
 Emotolize is a mobile and web application that captures images from a live video session and analyzes the session for overall emotion analytics. Emotolize supports video capture from DJI's OSMO camera devices, as well as the standard Android camera.
 
