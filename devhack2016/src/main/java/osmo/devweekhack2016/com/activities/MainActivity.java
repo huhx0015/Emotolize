@@ -149,10 +149,6 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
             Log.d(LOG_TAG, "onSurfaceTextureAvailable(): Using Android Camera as source device.");
 
             mCamera = Camera.open(); // Opens the camera.
-            Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
-
-//            videoTextureView.setLayoutParams(new LinearLayout.LayoutParams(
-//                    previewSize.width, previewSize.height, Gravity.CENTER));
 
             try {
                 mCamera.setPreviewTexture(surface);
@@ -327,15 +323,6 @@ public class MainActivity extends AppCompatActivity implements TextureView.Surfa
         Log.d(LOG_TAG, "emotionResults(): New Face Neutral Average: " + newFace.getNeutral());
         Log.d(LOG_TAG, "emotionResults(): New Face Sadness Average: " + newFace.getSadness());
         Log.d(LOG_TAG, "emotionResults(): New Face Surprise Average: " + newFace.getSurprise());
-
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Anger Average: " + newFace.getAnger(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Contempt Average: " + newFace.getContempt(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Disgust Average: " + newFace.getDisgust(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Fear Average: " + newFace.getFear(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Happiness Average: " + newFace.getHappiness(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Neutral Average: " + newFace.getNeutral(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Sadness Average: " + newFace.getSadness(), this);
-//        ToastUtil.toastyPopUp("emotionResults(): New Face Surprise Average: " + newFace.getSurprise(), this);
 
         // Updates the fragment.
         if (currentFragment != null) {

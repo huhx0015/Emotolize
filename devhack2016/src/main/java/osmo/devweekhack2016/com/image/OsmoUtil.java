@@ -40,29 +40,7 @@ public class OsmoUtil {
             Log.e(LOG_TAG, "initDevice(): ERROR: Device failed to initialize: " + exception.getMessage());
         }
 
-//        if (null == mProduct || !mProduct.isConnected()) {
-//            ToastUtil.toastyPopUp("OSMO Camera device is disconnected. Please connect device.", activity);
-//            Log.e(LOG_TAG, "initDevice(): ERROR: OSMO Camera device is disconnected. Please connect device.");
-//        } else {
-
             Log.d(LOG_TAG, "initDevice(): Product is connected.");
-
-//            if (!mProduct.getModel().equals(DJIBaseProduct.Model.UnknownAircraft)) {
-//                mCamera = mProduct.getCamera();
-//                if (mCamera != null){
-//
-//                    // Sets the callback.
-//                    mCamera.setDJICameraReceivedVideoDataCallback(mReceivedVideoDataCallBack);
-//                }
-//            } else {
-//                if (null != mProduct.getAirLink()) {
-//                    if (null != mProduct.getAirLink().getLBAirLink()) {
-//
-//                        // Set the callback.
-//                        mProduct.getAirLink().getLBAirLink().setDJIOnReceivedVideoCallback(mOnReceivedVideoCallback);
-//                    }
-//                }
-//            }
 
             // Passes the DJIBaseProduct and DJICamera reference to the activity.
             deviceConnected(mProduct, mCamera, activity);

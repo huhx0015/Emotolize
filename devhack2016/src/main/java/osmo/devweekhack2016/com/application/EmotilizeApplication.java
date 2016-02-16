@@ -52,7 +52,6 @@ public class EmotilizeApplication extends Application {
         public void onGetRegisteredResult(DJIError djiError) {
             if (djiError == DJISDKError.REGISTRATION_SUCCESS) {
                 DJISDKManager.getInstance().startConnectionToProduct();
-                //Toast.makeText(getApplicationContext(), "SDK Registration was successful. Please connect your device to the OSMO WI-FI network and re-launch the app.", Toast.LENGTH_LONG).show();
             } else {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {

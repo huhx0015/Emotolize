@@ -22,11 +22,6 @@ public class ApiUtility {
 
     public static void sendEmotionAnalytics(Face faceData) {
 
-        // Adds logging for Retrofit.
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
         Retrofit retrofitAdapter = new Retrofit.Builder()
                 .baseUrl(ApiConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -52,25 +47,5 @@ public class ApiUtility {
                 Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + t.getMessage());
             }
         });
-
-//        Call<Face> call = apiRequest.sendFace(faceData);
-//
-//        call.enqueue(new Callback<Face>() {
-//
-//            @Override
-//            public void onResponse(Response<Face> response, Retrofit retrofit) {
-//                Log.d(LOG_TAG, "sendEmotionAnalytics(): Response received.");
-//                if (response.isSuccess()) {
-//                    Log.d(LOG_TAG, "sendEmotionAnalytics(): Face data transmission was successful.");
-//                } else {
-//                    Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + response.message());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Log.e(LOG_TAG, "sendEmotionAnalytics(): ERROR: " + t.getMessage());
-//            }
-//        });
     }
 }

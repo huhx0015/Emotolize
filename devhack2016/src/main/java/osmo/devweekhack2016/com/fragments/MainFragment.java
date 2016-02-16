@@ -144,14 +144,14 @@ public class MainFragment extends Fragment {
     //TODO remove this method
     private Face getDummyData() {
         Face dummy = new Face();
-        dummy.setAnger(.1f);
-        dummy.setContempt(.2f);
-        dummy.setDisgust(.3f);
-        dummy.setFear(.1f);
-        dummy.setHappiness(.2f);
-        dummy.setNeutral(.04f);
-        dummy.setSadness(.05f);
-        dummy.setSurprise(.01f);
+        dummy.setAnger(0f);
+        dummy.setContempt(0f);
+        dummy.setDisgust(0f);
+        dummy.setFear(0f);
+        dummy.setHappiness(0f);
+        dummy.setNeutral(0f);
+        dummy.setSadness(0f);
+        dummy.setSurprise(0f);
         dummy.setDate(new Date());
         return dummy;
     }
