@@ -1,3 +1,4 @@
+/.idea
 /devhack2016/src/main/res/values/secrets.xml
 # built application files
 *.ap_
