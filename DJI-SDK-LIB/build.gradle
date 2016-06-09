@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 17
+        targetSdkVersion 22
     }
 
     buildTypes {
@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.code.gson:gson:2.6.2'
     compile files('libs/bouncycastle.jar')
     compile files('libs/dji-sdk.jar')
     compile files('libs/eventbus.jar')

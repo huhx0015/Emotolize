@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "osmo.devweekhack2016.com"
@@ -31,13 +31,13 @@ dependencies {
     compile project(':DJI-SDK-LIB')
 
     // ANDROID SUPPORT LIBRARIES
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.code.gson:gson:2.6.2'
 
     // ANNOTATION LIBRARIES
     provided 'org.glassfish:javax.annotation:10.0-b28'
@@ -50,7 +50,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.1.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:+'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
 
     // MICROSOFT LIBRARIES
     compile 'com.microsoft.projectoxford:emotion:1.0.0'
