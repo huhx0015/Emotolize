@@ -1,5 +1,5 @@
 Emotolize | DeveloperWeek 2016 Hackathon
-============
+========================================
 
 Team: Michael Huh, Ssurey Moon, Olivia Dodge, Steve Lee Marreros, Michael Campos
 
